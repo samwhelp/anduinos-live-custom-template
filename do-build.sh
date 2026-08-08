@@ -1114,11 +1114,11 @@ function sys_anduinos_add_apt_preferences () {
 cat << __EOF__ | tee "/etc/apt/preferences.d/anduinos.pref"  > /dev/null 2>&1
 Package: *
 Pin: origin packages.anduinos.com
-Pin-Priority: 750
+Pin-Priority: 650
 
 Package: *
 Pin: release o=anduinos,c=upstream
-Pin-Priority: 700
+Pin-Priority: 600
 __EOF__
 
 
