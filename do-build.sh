@@ -1069,19 +1069,15 @@ function sys_anduinos_add_keyring () {
 
 	echo "==== sys_anduinos_add_keyring ===="
 
-	local keyring_deb_file_name="anduinos-keyring_2022.06.21_all.deb"
+	local target_anduinos_mirror="\${TARGET_ANDUINOS_MIRROR}"
+	local keyring_path="/usr/share/keyrings/anduinos-archive-keyring.gpg"
+	local cert_url="${target_anduinos_mirror}/artifacts/certs/anduinos"
 
-	echo 'apt-get install -y --install-recommends gnupg wget'
-	apt-get install -y --install-recommends gnupg wget
+	echo 'apt-get install -y --install-recommends gnupg wget curl'
+	apt-get install -y --install-recommends gnupg wget curl
 
-	mkdir -p "/tmp"
-	echo "wget -c http://packages.anduinos.com/pool/main/l/anduinos-keyring/\${keyring_deb_file_name} -O /tmp/\${keyring_deb_file_name}"
-	wget -c "http://packages.anduinos.com/pool/main/l/anduinos-keyring/\${keyring_deb_file_name}" -O "/tmp/\${keyring_deb_file_name}"
-
-	echo "dpkg -i /tmp/\${keyring_deb_file_name}"
-	dpkg -i "/tmp/\${keyring_deb_file_name}"
-
-	rm -f "/tmp/\${keyring_deb_file_name}"
+	mkdir -p "/usr/share/keyrings"
+	curl -sL "${cert_url}" | sed '1s/^\xEF\xBB\xBF//' | gpg --dearmor | tee "${keyring_path}" > /dev/null
 
 }
 
@@ -1109,13 +1105,15 @@ __EOF__
 
 function sys_anduinos_add_apt_preferences () {
 
+	return 0;
+
 	echo "==== sys_anduinos_add_apt_preferences ===="
 
 	mkdir -p "/etc/apt/preferences.d"
 
 cat << __EOF__ | tee "/etc/apt/preferences.d/anduinos.pref"  > /dev/null 2>&1
 Package: *
-Pin: origin live.anduinos.com
+Pin: origin packages.anduinos.com
 Pin-Priority: 750
 
 Package: *
