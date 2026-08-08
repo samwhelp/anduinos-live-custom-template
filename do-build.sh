@@ -1097,11 +1097,11 @@ function sys_anduinos_add_apt_sources () {
 
 cat << __EOF__ | tee "/etc/apt/sources.list.d/anduinos.sources"
 Types: deb
-URIs: \${target_anduinos_mirror}
-Suites: \${target_anduinos_codename}
-Components: main upstream import backport
+URIs: ${target_anduinos_mirror}/artifacts/anduinos/
+Suites: ${target_anduinos_codename}-addon
+Components: main
 Architectures: \${target_arch}
-Signed-By: /etc/apt/trusted.gpg.d/anduinos-keyring.gpg
+Signed-By: /usr/share/keyrings/anduinos-archive-keyring.gpg
 __EOF__
 
 
