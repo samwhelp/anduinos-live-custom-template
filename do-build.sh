@@ -88,7 +88,7 @@ DEBOOTSTRAP_SCRIPT_FILE_PATH=""
 
 
 TARGET_ANDUINOS_CODENAME="alfa"
-TARGET_ANDUINOS_MIRROR="http://packages.linuxmint.com"
+TARGET_ANDUINOS_MIRROR="http://packages.anduinos.com"
 
 
 
@@ -1050,34 +1050,34 @@ __EOF__
 ## * https://github.com/clefebvre/docker-images/tree/master/mint23/etc/apt
 ##
 
-function core_apt_sources_config_for_linuxmint () {
+function core_apt_sources_config_for_anduinos () {
 
 	echo "################################################################################"
-	echo "## [Worker] core_apt_sources_config_for_linuxmint"
+	echo "## [Worker] core_apt_sources_config_for_anduinos"
 	echo "################################################################################"
 
-	echo "==== config apt soruces list for linuxmint ===="
+	echo "==== config apt soruces list for anduinos ===="
 
-	sys_linuxmint_add_keyring
+	sys_anduinos_add_keyring
 
-	sys_linuxmint_add_apt_sources
+	sys_anduinos_add_apt_sources
 
-	sys_linuxmint_add_apt_preferences
+	sys_anduinos_add_apt_preferences
 
 }
 
-function sys_linuxmint_add_keyring () {
+function sys_anduinos_add_keyring () {
 
-	echo "==== sys_linuxmint_add_keyring ===="
+	echo "==== sys_anduinos_add_keyring ===="
 
-	local keyring_deb_file_name="linuxmint-keyring_2022.06.21_all.deb"
+	local keyring_deb_file_name="anduinos-keyring_2022.06.21_all.deb"
 
 	echo 'apt-get install -y --install-recommends gnupg wget'
 	apt-get install -y --install-recommends gnupg wget
 
 	mkdir -p "/tmp"
-	echo "wget -c http://packages.linuxmint.com/pool/main/l/linuxmint-keyring/\${keyring_deb_file_name} -O /tmp/\${keyring_deb_file_name}"
-	wget -c "http://packages.linuxmint.com/pool/main/l/linuxmint-keyring/\${keyring_deb_file_name}" -O "/tmp/\${keyring_deb_file_name}"
+	echo "wget -c http://packages.anduinos.com/pool/main/l/anduinos-keyring/\${keyring_deb_file_name} -O /tmp/\${keyring_deb_file_name}"
+	wget -c "http://packages.anduinos.com/pool/main/l/anduinos-keyring/\${keyring_deb_file_name}" -O "/tmp/\${keyring_deb_file_name}"
 
 	echo "dpkg -i /tmp/\${keyring_deb_file_name}"
 	dpkg -i "/tmp/\${keyring_deb_file_name}"
@@ -1086,41 +1086,41 @@ function sys_linuxmint_add_keyring () {
 
 }
 
-function sys_linuxmint_add_apt_sources () {
+function sys_anduinos_add_apt_sources () {
 
-	echo "==== sys_linuxmint_add_apt_sources ===="
+	echo "==== sys_anduinos_add_apt_sources ===="
 
-	local target_linuxmint_codename="\${TARGET_ANDUINOS_CODENAME}"
-	local target_linuxmint_mirror="\${TARGET_ANDUINOS_MIRROR}"
+	local target_anduinos_codename="\${TARGET_ANDUINOS_CODENAME}"
+	local target_anduinos_mirror="\${TARGET_ANDUINOS_MIRROR}"
 	local target_arch="\${TARGET_ARCH}"
 
 	mkdir -p "/etc/apt/sources.list.d"
 
-cat << __EOF__ | tee "/etc/apt/sources.list.d/linuxmint.sources"
+cat << __EOF__ | tee "/etc/apt/sources.list.d/anduinos.sources"
 Types: deb
-URIs: \${target_linuxmint_mirror}
-Suites: \${target_linuxmint_codename}
+URIs: \${target_anduinos_mirror}
+Suites: \${target_anduinos_codename}
 Components: main upstream import backport
 Architectures: \${target_arch}
-Signed-By: /etc/apt/trusted.gpg.d/linuxmint-keyring.gpg
+Signed-By: /etc/apt/trusted.gpg.d/anduinos-keyring.gpg
 __EOF__
 
 
 }
 
-function sys_linuxmint_add_apt_preferences () {
+function sys_anduinos_add_apt_preferences () {
 
-	echo "==== sys_linuxmint_add_apt_preferences ===="
+	echo "==== sys_anduinos_add_apt_preferences ===="
 
 	mkdir -p "/etc/apt/preferences.d"
 
-cat << __EOF__ | tee "/etc/apt/preferences.d/linuxmint.pref"  > /dev/null 2>&1
+cat << __EOF__ | tee "/etc/apt/preferences.d/anduinos.pref"  > /dev/null 2>&1
 Package: *
-Pin: origin live.linuxmint.com
+Pin: origin live.anduinos.com
 Pin-Priority: 750
 
 Package: *
-Pin: release o=linuxmint,c=upstream
+Pin: release o=anduinos,c=upstream
 Pin-Priority: 700
 __EOF__
 
@@ -1724,7 +1724,7 @@ function model_do_fulfill_scripts () {
 	core_apt_upgrade
 
 
-	core_apt_sources_config_for_linuxmint
+	core_apt_sources_config_for_anduinos
 	core_apt_upgrade
 
 
