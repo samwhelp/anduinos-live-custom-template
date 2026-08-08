@@ -1071,13 +1071,13 @@ function sys_anduinos_add_keyring () {
 
 	local target_anduinos_mirror="\${TARGET_ANDUINOS_MIRROR}"
 	local keyring_path="/usr/share/keyrings/anduinos-archive-keyring.gpg"
-	local cert_url="${target_anduinos_mirror}/artifacts/certs/anduinos"
+	local cert_url="\${target_anduinos_mirror}/artifacts/certs/anduinos"
 
 	echo 'apt-get install -y --install-recommends gnupg wget curl'
 	apt-get install -y --install-recommends gnupg wget curl
 
 	mkdir -p "/usr/share/keyrings"
-	curl -sL "${cert_url}" | sed '1s/^\xEF\xBB\xBF//' | gpg --dearmor | tee "${keyring_path}" > /dev/null
+	curl -sL "\${cert_url}" | sed '1s/^\xEF\xBB\xBF//' | gpg --dearmor | tee "\${keyring_path}" > /dev/null
 
 }
 
@@ -1093,8 +1093,8 @@ function sys_anduinos_add_apt_sources () {
 
 cat << __EOF__ | tee "/etc/apt/sources.list.d/anduinos.sources"
 Types: deb
-URIs: ${target_anduinos_mirror}/artifacts/anduinos/
-Suites: ${target_anduinos_codename}-addon
+URIs: \${target_anduinos_mirror}/artifacts/anduinos/
+Suites: \${target_anduinos_codename}-addon
 Components: main
 Architectures: \${target_arch}
 Signed-By: /usr/share/keyrings/anduinos-archive-keyring.gpg
