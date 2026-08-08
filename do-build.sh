@@ -87,9 +87,8 @@ TARGET_DEFAULT_LOCALE="en_US.UTF-8"
 DEBOOTSTRAP_SCRIPT_FILE_PATH=""
 
 
-TARGET_ANDUINOS_CODENAME="alfa"
-TARGET_ANDUINOS_MIRROR="http://packages.anduinos.com"
-
+TARGET_ANDUINOS_CODENAME="${TARGET_UBUNTU_CODENAME}"
+TARGET_ANDUINOS_MIRROR="https://packages.anduinos.com"
 
 
 ################################################################################
