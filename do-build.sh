@@ -1124,6 +1124,24 @@ __EOF__
 
 }
 
+function anduinos_base_package_install () {
+
+	echo "################################################################################"
+	echo "## [Worker] anduinos_base_package_install"
+	echo "################################################################################"
+
+	echo "==== install anduinos base packages ===="
+
+	local run_cmd="apt-get install -y --install-recommends
+		anduinos-apt-config
+		anduinos-archive-keyring
+		base-files
+	"
+
+	echo \${run_cmd}
+	\${run_cmd}
+}
+
 
 ##
 ## ## Module / Systemd
@@ -1718,10 +1736,9 @@ function model_do_fulfill_scripts () {
 
 
 	core_apt_sources_config
-	core_apt_upgrade
-
-
 	core_apt_sources_config_for_anduinos
+	core_apt_update
+	anduinos_base_package_install
 	core_apt_upgrade
 
 
